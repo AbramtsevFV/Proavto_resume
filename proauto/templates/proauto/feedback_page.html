@@ -1,0 +1,29 @@
+{% extends 'proauto/base.html' %}
+{% block content %}
+<section class="dealer_profile inner_pages">
+  <div class="container">
+     <div class="row">
+        <div class="col-lg-9 col-md-8">
+            <div class="dealer_more_info">
+                <div class="comment_form">
+                    <h6>Обратная связь сайта Про авто</h6>
+                     <form  method="post">
+                        {{ form.non_field_errors }}
+                        {% csrf_token %}
+                        {% for f in form %}
+                        <div class="form-group">
+                            {{ f }}
+                            {{ f.errors }}
+                        </div>
+                      {% endfor %}
+                <div class="form-group">
+                     <button class="btn" type="submit">Отправить <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+{% endblock content%}

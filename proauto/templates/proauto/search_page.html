@@ -1,0 +1,55 @@
+{% extends 'proauto/base.html' %}
+{% load static %}
+{% block content %}
+<section class="our_blog">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9 col-md-8">
+   <div class="comment-respond">
+          <h5>Поис по сайту</h5>
+    <form action="{% url 'search' %}" method="GET" class="comment-form">
+    <div class="form-group">
+                {% for f in form %}
+                    {{ f }}
+                {% endfor %}
+    <small id="emailHelp" class="form-text text-muted"> Поиск осуществляется по модели автомобиля введите название полностью или частично.
+    Например: "ВАЗ-2101" или "ГАЗ"</small>
+  </div>
+    <div class="form-group">
+        <button class="btn" type="submit">Поиск <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+    </div>
+    </form>
+   </div>
+
+
+  {% if object_list %}
+<h5 class="gray-bg info_title"> Ререльтаты поиска:</h5>
+
+          <!-- Вывод списка моделий-->
+         {% for auto in object_list %}
+                <div class="row">
+          <div class="col-sm-3 col-xs-4">
+            <div class="dealer_logo"> <img src="{{ auto.previewImg.url }}" alt="{{ auto.title }}"> </div>
+          </div>
+          <div class="col-sm-6 col-xs-8">
+            <div class="dealer_info">
+              <h5>{{ auto.title }}</h5>
+            </div>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <div class="view_profile"> <a href="{{ auto.get_absolute_url }} " class="btn btn-xs outline">Читать историю модели</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+          {% else %}
+          <h5 class="gray-bg info_title">Или вы ничего не искали, или мы не нашли(</h5>
+            <div class="article_img"> <img src="{% static 'proauto/img/searcherror.png' %}" alt="image"> </div>
+      {% endif %}
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+{% endblock %}

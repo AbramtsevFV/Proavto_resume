@@ -1,0 +1,44 @@
+{% extends 'proauto/base.html' %}
+{% block content %}
+    <section class="page-header page_404">
+  <div class="container">
+    <div class="page-header_wrap">
+      <div class="page-heading">
+        <h1>Ошибка 404</h1>
+      </div>
+      <ul class="coustom-breadcrumb">
+        <li><a href="#">На главную</a></li>
+        <li>Ошибка 404 404</li>
+      </ul>
+    </div>
+  </div>
+  <!-- Dark Overlay-->
+  <div class="dark-overlay"></div>
+</section>
+<!-- /Page Header-->
+
+<!--Error-404-->
+<section class="error_404 section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-5">
+        <div class="error_text_m">
+          <h2>4<span>0</span>4</h2>
+          <div class="background_icon"><i class="fa fa-road" aria-hidden="true"></i></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-7">
+        <div class="not_found_msg">
+          <div class="error_icon"> <i class="fa fa-smile-o" aria-hidden="true"></i> </div>
+          <div class="error_msg_div">
+            <h3>Ой, <span>Страница не найдена </span></h3>
+
+            <a href="#" class="btn">Перейти на главную <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Error-404-->
+{% endblock %}
+

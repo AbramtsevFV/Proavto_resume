@@ -1,0 +1,21 @@
+{% extends 'proauto/base.html' %}
+{% block content %}
+
+<section class="dealer_profile inner_pages">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 col-xs-4">
+            <div class="dealer_logo"><img src="{{ country.flagImg.url }}" alt="{{ country }}"></a> </div>
+          </div>
+      <div class="col-md-9">
+        <div class="dealer_more_info">
+          <h5 class="gray-bg info_title">История автомобилестроения: {{ country }}</h5>
+            {% autoescape off%}
+      <p>{{ country.content }} </p>
+            {% endautoescape %}
+        </div>
+      </div>
+    </div>
+</div>
+</section>
+{% endblock %}

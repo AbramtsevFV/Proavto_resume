@@ -1,0 +1,23 @@
+{% load mptt_tags %}
+{% load static %}
+<ul class="nav navbar-nav">
+    {% recursetree menu %}
+        {% if node.level == 0 %}
+        <li class="dropdown">
+            {% if node.slug != 'glavnaya'  %}
+                <a href="{{ node.get_absolute_url }}" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">{{ node.name }}</a>
+             {% else %}
+                <a href="{% url node.slug %}"  aria-haspopup="true" aria-expanded="false">{{ node.name }}</a>
+             {% endif %}
+        {% else %}
+            <li>
+            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+        {% endif %}
+            {% if not node.is_leaf_node %}
+                <ul class="dropdown-menu">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
