@@ -1,5 +1,5 @@
 import re
-
+import time
 import telegram
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from celery.decorators import task
@@ -8,7 +8,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Dispa
 from proproauto.settings import TELEGRAM_TOKEN
 from .models import Tg_response_msg
 from .utils import get_data_from_api, get_data_from_api_no_HTML, get_text_messages, get_data_from_api_car_no_HTML, \
-    save_mssages_users
+    save_mssages_users, check_admin, get_user_list
 
 
 def get_user_data(update):
@@ -51,6 +51,9 @@ def send_msg(room_id, text, reply_markup=None):
     """
     bot.send_message(chat_id=room_id, text=text, parse_mode='Markdown', reply_markup=reply_markup)
 
+def send_img(room_id, url):
+    bot.send_photo(chat_id=room_id, photo=url)
+
 
 def start_help(update, context: CallbackContext):
     """
@@ -78,7 +81,8 @@ def get_keyboard_msg(update, context: CallbackContext):
 
 def brend(update, context: CallbackContext):
     users = get_user_data(update)
-    brend_list = get_data_from_api_no_HTML(users["command"])
+    photo, brend_list = get_data_from_api_no_HTML(users["command"])
+    send_img(users['room_id'], photo)
     for text in brend_list:
          send_msg(users['room_id'], text)
     default_keyboard(users['room_id'])
@@ -97,7 +101,8 @@ def get_car(update, context: CallbackContext):
         command = f"/model_auto/?search={users['command']}"
     else:
         command = users['command']
-    m_a = get_data_from_api_car_no_HTML(command)
+    photo, m_a = get_data_from_api_car_no_HTML(command)
+
     if m_a:
         if isinstance(m_a[0], dict):
             keyboard = []
@@ -108,6 +113,8 @@ def get_car(update, context: CallbackContext):
             text = get_text_messages('/car_list')
             send_msg(users['room_id'], text, reply_markup)
         else:
+
+            send_img(users['room_id'], photo)
             for text in m_a:
                 send_msg(users['room_id'], text)
     else:
@@ -115,6 +122,19 @@ def get_car(update, context: CallbackContext):
         send_msg(users['room_id'], text)
     default_keyboard(users['room_id'])
 
+def admin_info(update, context: CallbackContext):
+    users = get_user_data(update)
+
+    if check_admin(users['room_id']):
+        user_lst = get_user_list()
+        text = get_text_messages('send_info_msg')
+        for u in user_lst:
+            send_msg(u, text)
+        send_msg(users['room_id'], 'Сообщение отправлено')
+
+    else:
+        text = get_text_messages('/error_admin')
+        send_msg(users['room_id'], text)
 
 def setup_dispatcher(dp):
     """
@@ -122,6 +142,7 @@ def setup_dispatcher(dp):
     """
     dp.add_handler(CommandHandler("start", start_help))
     dp.add_handler(CommandHandler("help", start_help))
+    dp.add_handler(CommandHandler("admin_send_info", admin_info))
     dp.add_handler(CommandHandler("brend_list", get_keyboard_msg))
     dp.add_handler(CallbackQueryHandler(get_keyboard_msg, pattern='^/brend_list$'))
     dp.add_handler(CallbackQueryHandler(get_keyboard_msg, pattern='^/country_list$'))
@@ -130,7 +151,7 @@ def setup_dispatcher(dp):
     dp.add_handler(CallbackQueryHandler(brend, pattern='^/brend_list\S+\w+$'))
     dp.add_handler(CallbackQueryHandler(brend, pattern='^/country_list\S+\w+$'))
     dp.add_handler(CallbackQueryHandler(get_car, pattern='^\Smodel_auto\S\Ssearch=.+$'))
-    dp.add_handler(MessageHandler(Filters.text,  get_car))
+    dp.add_handler(MessageHandler(Filters.text, get_car))
     return dp
 
 

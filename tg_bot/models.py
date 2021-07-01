@@ -12,6 +12,7 @@ class Profile(models.Model):
     name = models.TextField(
         verbose_name='Имя пользователя'
     )
+
     bot_admin = models.BooleanField(default=False)
 
     def __str__(self):

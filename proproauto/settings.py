@@ -16,10 +16,9 @@ from dotenv import load_dotenv
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+# При запуске на сервере поменять на TELEGRAM_TOKEN
+TELEGRAM_TOKEN = os.getenv('TEST_TELEGRAM_TOKEN')
 API_URL = os.getenv('API_URL')
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -32,11 +31,11 @@ EMAIL_PORT = 25
 NAME_BD = os.getenv('NAME_BD')
 USER_BD = os.getenv('USER_BD')
 PASSWORD_BD = os.getenv('PASSWORD_BD')
-
+CSRF_COOKIE_SECURE = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # при отключении нужно прописать адрес сервера
-ALLOWED_HOSTS = ['127.0.0.1', '61ef758e061f.ngrok.io']
+ALLOWED_HOSTS = ['f34683576021.ngrok.io', '127.0.0.1', ]
 
 
 # Application definition
