@@ -35,7 +35,7 @@ CSRF_COOKIE_SECURE = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # при отключении нужно прописать адрес сервера
-ALLOWED_HOSTS = ['f34683576021.ngrok.io', '127.0.0.1', ]
+ALLOWED_HOSTS = ['1f21e46b69bd.ngrok.io', '127.0.0.1', ]
 
 
 # Application definition
